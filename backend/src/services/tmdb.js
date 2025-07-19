@@ -2,8 +2,8 @@ import axios from "axios";
 import dotenv from "dotenv";
 import { getGenreId, getGenreNames } from "../models/genresMap.js";
 
-//dotenv.config({ path: "../.env" });
-dotenv.config();
+dotenv.config({ path: "../.env" });
+//dotenv.config();
 
 const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
