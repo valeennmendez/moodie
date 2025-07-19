@@ -7,7 +7,8 @@ import path from "path";
 
 //dotenv.config({ path: "../.env" });
 dotenv.config();
-const __dirname = path.resolve();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
