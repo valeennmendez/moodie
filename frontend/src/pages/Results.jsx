@@ -16,7 +16,7 @@ const Results = () => {
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          `http://localhost:5001/api/movie/recommendation`,
+          `https://moodie.onrender.com/api/movie/recommendation`,
           {
             mood: moodSelection,
             goal: goalSelection,
