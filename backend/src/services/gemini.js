@@ -2,8 +2,10 @@ import { GoogleGenAI } from "@google/genai";
 
 import dotenv from "dotenv";
 
-dotenv.config({ path: "../.env" });
-//dotenv.config();
+//dotenv.config({ path: "../.env" });
+dotenv.config();
+
+console.log("PRUEBA DE VARIABLES: ", process.env.GOOGLE_API_KEY);
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GOOGLE_API_KEY,
