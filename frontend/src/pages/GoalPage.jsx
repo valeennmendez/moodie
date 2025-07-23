@@ -127,7 +127,7 @@ const GoalPage = () => {
         </h3>
       </div>
 
-      <div className="grid grid-cols-1 max-w-xl grid-rows-5 h-[25rem]  w-sm sm:w-md md:w-lg lg:w-xl mt-5 gap-2">
+      <div className="grid grid-cols-1 max-w-xl grid-rows-5 h-[25rem]  w-sm sm:w-md md:w-lg lg:w-xl mt-5 gap-2 px-8 sm:p-0">
         {goals.map(({ goal, emoji }) => (
           <Goal
             key={goal}
