@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { LogIn, LetterText, Settings, MenuIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -38,8 +38,15 @@ const Navbar = () => {
 };
  */
 
+  const [openMenu, setOpenMenu] = useState(false);
+
+  const handleClick = (path) => {
+    setOpenMenu(!openMenu);
+    navigate(path);
+  };
+
   return (
-    <div className="navbar bg-base-100 shadow-md">
+    <div className="navbar bg-base-100 shadow-md p-0">
       <div className="flex-1">
         <a
           className="btn btn-ghost text-xl font-bold"
@@ -76,8 +83,38 @@ const Navbar = () => {
       </div>
       <div className="sm:hidden flex-none">
         <button className="btn btn-square btn-ghost">
-          <MenuIcon className="size-6" />
+          <MenuIcon className="size-6" onClick={() => setOpenMenu(!openMenu)} />
         </button>
+      </div>
+      <div
+        className={`${
+          openMenu ? `flex` : `hidden`
+        }  absolute top-14 w-full z-10  items-center justify-center bg-base-200 h-40`}
+      >
+        <ul className="flex flex-col gap-6">
+          <li className="flex cursor-pointer ">
+            <a className="flex font-semibold items-center gap-1 ">
+              <LogIn className="size-4.5" />
+              Login
+            </a>
+          </li>
+          <li className="flex cursor-pointer ">
+            <a className="flex font-semibold items-center gap-1" tabIndex={0}>
+              <LetterText className="size-4.5" />
+              SignUp
+            </a>
+          </li>
+          <li className="flex cursor-pointer ">
+            <a
+              className="flex font-semibold items-center gap-1"
+              tabIndex={0}
+              onClick={() => handleClick("/settings")}
+            >
+              <Settings className="size-4.5" />
+              Settings
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   );
