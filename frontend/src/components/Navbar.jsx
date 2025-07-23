@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate();
 
-  return (
+  /*   return (
     <div className="bg-slate-950/95 flex h-14 items-center justify-between px-10">
       <h1
         className="text-amber-50 font-bold text-2xl cursor-pointer"
@@ -23,13 +23,62 @@ const Navbar = () => {
             <LetterText className="size-4.5" />
             SignUp
           </li>
-          <li className="flex font-semibold text-amber-50 items-center gap-1 bg-black/25 px-2 py-1 rounded-md cursor-pointer">
+          <li
+            onClick={() => navigate("/settings")}
+            className="flex font-semibold text-amber-50 items-center gap-1 bg-black/25 px-2 py-1 rounded-md cursor-pointer"
+          >
             <Settings className="size-4.5" />
             Settings
           </li>
         </ul>
       </div>
       <MenuIcon className="sm:hidden flex text-amber-50" />
+    </div>
+  );
+};
+ */
+
+  return (
+    <div className="navbar bg-base-100 shadow-md">
+      <div className="flex-1">
+        <a
+          className="btn btn-ghost text-xl font-bold"
+          onClick={() => navigate("/")}
+        >
+          Moodie
+        </a>
+      </div>
+      <div className="hidden sm:flex flex-none">
+        <ul className="flex flex-row gap-10 pr-5">
+          <li className="flex cursor-pointer ">
+            <a className="flex font-semibold items-center gap-1 ">
+              <LogIn className="size-4.5" />
+              Login
+            </a>
+          </li>
+          <li className="flex cursor-pointer ">
+            <a className="flex font-semibold items-center gap-1" tabIndex={0}>
+              <LetterText className="size-4.5" />
+              SignUp
+            </a>
+          </li>
+          <li className="flex cursor-pointer ">
+            <a
+              className="flex font-semibold items-center gap-1"
+              tabIndex={0}
+              onClick={() => navigate("/settings")}
+            >
+              <Settings className="size-4.5" />
+              Settings
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div className="sm:hidden flex-none">
+        <button className="btn btn-square btn-ghost">
+          <MenuIcon className="size-6" />
+        </button>
+      </div>
     </div>
   );
 };

@@ -9,6 +9,9 @@ const Results = () => {
   const { moodSelection, goalSelection } = selectionStore();
   console.log("Meta recuperada en resultados:", goalSelection);
 
+  const NODE_ENV = import.meta.env.VITE_ENV;
+  const route = "/api/movie/recommendation";
+
   useEffect(() => {
     setMovies([]);
     setGenres([]);
@@ -16,7 +19,11 @@ const Results = () => {
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          `https://moodie.onrender.com/api/movie/recommendation`,
+          `${
+            NODE_ENV === "development"
+              ? `http://localhost:5001${route}`
+              : `https://moodie.onrender.com${route}`
+          }`,
           {
             mood: moodSelection,
             goal: goalSelection,
