@@ -30,10 +30,10 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="overflow-hidden h-[44.9rem] w-full bg-base-100 flex flex-col items-center p-10">
-      <div className="w-[100%] lg:w-[36rem]">
+    <div className="overflow-hidden min-h-[calc(100vh-4rem)]  w-full bg-base-100 flex flex-col justify-center items-center  px-3 sm:px-10 ">
+      <div className="m-auto w-[100%] lg:w-[36rem]">
         <div className="w-full max-w-xl">
-          <button className="btn btn-ghost text-base-content mb-10">
+          <button className="btn btn-ghost text-base-content mb-3">
             <ArrowLeft />
             Volver
           </button>
