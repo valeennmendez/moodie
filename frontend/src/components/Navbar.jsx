@@ -58,13 +58,20 @@ const Navbar = () => {
       <div className="hidden sm:flex flex-none">
         <ul className="flex flex-row gap-10 pr-5">
           <li className="flex cursor-pointer ">
-            <a className="flex font-semibold items-center gap-1 ">
+            <a
+              className="flex font-semibold items-center gap-1 "
+              onClick={() => navigate("/login")}
+            >
               <LogIn className="size-4.5" />
               Login
             </a>
           </li>
           <li className="flex cursor-pointer ">
-            <a className="flex font-semibold items-center gap-1" tabIndex={0}>
+            <a
+              className="flex font-semibold items-center gap-1"
+              tabIndex={0}
+              onClick={() => navigate("/signup")}
+            >
               <LetterText className="size-4.5" />
               SignUp
             </a>
@@ -93,13 +100,20 @@ const Navbar = () => {
       >
         <ul className="flex flex-col gap-6">
           <li className="flex cursor-pointer ">
-            <a className="flex font-semibold items-center gap-1 ">
+            <a
+              className="flex font-semibold items-center gap-1"
+              onClick={() => handleClick("/login")}
+            >
               <LogIn className="size-4.5" />
               Login
             </a>
           </li>
           <li className="flex cursor-pointer ">
-            <a className="flex font-semibold items-center gap-1" tabIndex={0}>
+            <a
+              className="flex font-semibold items-center gap-1"
+              tabIndex={0}
+              onClick={() => handleClick("/signup")}
+            >
               <LetterText className="size-4.5" />
               SignUp
             </a>
