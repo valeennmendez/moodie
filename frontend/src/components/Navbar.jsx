@@ -46,7 +46,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-base-100 shadow-md p-0">
+    <div className="navbar bg-base-100 shadow-md px-1">
       <div className="flex-1">
         <a
           className="btn btn-ghost text-xl font-bold"

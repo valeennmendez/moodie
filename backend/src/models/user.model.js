@@ -16,6 +16,20 @@ const userModel = new mongoose.Schema(
       require: true,
       unique: true,
     },
+    code: {
+      type: Number,
+      require: true,
+    },
+    codeExpires: {
+      type: Date,
+      require: true,
+    },
+    status: {
+      type: String,
+      require: true,
+      enum: ["not-verified", "verified"],
+      default: "not-verified",
+    },
   },
   { timeStamps: true }
 );

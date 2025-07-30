@@ -1,7 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
 import { authStore } from "../store/authStore";
 
 const LoginPage = () => {
@@ -30,20 +29,23 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="overflow-hidden min-h-[calc(100vh-4rem)]  w-full bg-base-100 flex flex-col justify-center items-center  px-3 sm:px-10 ">
+    <div className="overflow-hidden min-h-[calc(100vh-4rem)]  w-full bg-base-200 flex flex-col justify-center items-center  px-3 sm:px-10 ">
       <div className="m-auto w-[100%] lg:w-[36rem]">
         <div className="w-full max-w-xl">
-          <button className="btn btn-ghost text-base-content mb-3">
+          <button
+            className="btn btn-ghost text-base-content mb-3"
+            onClick={(e) => navigate("/")}
+          >
             <ArrowLeft />
             Volver
           </button>
         </div>
-        <div className="bg-base-200  flex flex-col p-10 rounded-lg">
+        <div className="bg-base-200 border-1 border-base-content/10  flex flex-col p-10 rounded-lg">
           <div className="text-center mb-5">
             <h1 className="font-bold text-base-500 text-2xl sm:text-3xl md:text-4xl ">
               Iniciar Sesion
             </h1>
-            <h3 className=" text-base-content/50 text-md sm:text-lg md:text-xl lg:text-xl">
+            <h3 className=" text-base-content/50 text-sm">
               Accede a tu cuenta de Moodie.
             </h3>
           </div>
