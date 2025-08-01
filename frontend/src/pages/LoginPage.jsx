@@ -2,6 +2,7 @@ import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { authStore } from "../store/authStore";
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -22,10 +23,14 @@ const LoginPage = () => {
     }
   };
 
-  const submitHandle = (e) => {
+  const submitHandle = async (e) => {
     e.preventDefault();
-
-    login(formData);
+    const res = await login(formData);
+    if (res === 200) {
+      navigate("/");
+    } else {
+      toast.error("Ocurrió un error.");
+    }
   };
 
   return (

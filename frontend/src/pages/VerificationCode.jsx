@@ -4,17 +4,17 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Mail } from "lucide-react";
 import { useEffect } from "react";
 import { authStore } from "../store/authStore";
+import toast from "react-hot-toast";
 
 const VerificationCode = () => {
   const [code, setCode] = useState(["", "", "", "", ""]);
-  const [data, setData] = useState({
-    codeInput: null,
-    email: null,
-  });
+  const [status, setStatus] = useState(null);
   const inputRef = useRef([]);
   const navigate = useNavigate();
+  const [timer, setTimer] = useState(100);
+  const [disabled, setDisabled] = useState(true);
 
-  const { verification, authUser, isVerifying } = authStore();
+  const { verification, authUser, isVerifying, resendEmail } = authStore();
 
   const handleChange = (index, value) => {
     const newCode = [...code];
@@ -39,12 +39,37 @@ const VerificationCode = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleResendEmail = async (e) => {
+    e.preventDefault();
+    setTimer(100);
+    setDisabled(true);
+    const payload = { email: authUser };
+    const res = await resendEmail(payload);
+    console.log("resend:", res);
+    if (res === 200) {
+      toast.success("Código enviado");
+    } else {
+      toast.error("Ocurrió un error al enviar el código");
+    }
+  };
+
+  const handleSubmit = async (e) => {
     const newCode = code.join("");
     const codeInt = parseInt(newCode);
-    setData({ email: authUser, codeInput: codeInt });
-    console.log("DATA", data);
-    verification(data);
+
+    const payload = {
+      email: authUser,
+      codeInput: codeInt,
+    };
+
+    const res = await verification(payload);
+    setStatus(res);
+
+    if (res === 200) {
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
+    }
   };
 
   useEffect(() => {
@@ -53,7 +78,19 @@ const VerificationCode = () => {
     }
   }, [code]);
 
-  console.log(data);
+  useEffect(() => {
+    if (disabled && timer > 0) {
+      const countdown = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+
+      return () => clearInterval(countdown);
+    }
+
+    if (timer === 0) {
+      setDisabled(false);
+    }
+  }, [timer, disabled]);
 
   return (
     <div className="overflow-hidden min-h-[calc(100vh-4rem)]  w-full bg-base-200 flex flex-col justify-center items-center  px-3 sm:px-10 ">
@@ -105,13 +142,44 @@ const VerificationCode = () => {
                 Verificando código
               </span>
             </div>
+            <div
+              className={`${
+                status === null ? `hidden` : `flex`
+              } text-center justify-center`}
+            >
+              {status === 200 ? (
+                <>
+                  <span className="text-green-500">
+                    ¡Verificación exitosa! <br />{" "}
+                    <span className="text-base-content/70">
+                      Redirigiendo en 3s
+                    </span>
+                  </span>
+                </>
+              ) : (
+                <span className="text-error">
+                  Ocurrió un error al verificar el código
+                </span>
+              )}
+            </div>
             <div className="flex flex-col items-center">
               <span className="mb-4 text-center text-base-content/50 text-sm">
                 ¿No recibiste el código?
               </span>
-              <button className="bg-base-content text-base-300 h-12 w-full text-center  flex justify-center items-center rounded-lg cursor-pointer">
-                {" "}
-                Reenviar Código{" "}
+              <button
+                onClick={(e) => handleResendEmail(e)}
+                className={`${
+                  disabled || status === 200
+                    ? `bg-base-content/70 cursor-auto`
+                    : `bg-base-content  cursor-pointer`
+                }  text-base-300 h-12 w-full text-center  flex justify-center items-center rounded-lg`}
+                disabled={disabled || status === 200}
+              >
+                {isVerifying ? (
+                  <span className="loading text-base-content loading-spinner loading-xs"></span>
+                ) : (
+                  `${disabled ? `Reenviar en ${timer}s` : "Reenviar código"}`
+                )}
               </button>
               <span className="text-base-content/50 mt-3 text-center text-sm">
                 Al verificar tu cuenta aceptas nuestros terminos de servicio y

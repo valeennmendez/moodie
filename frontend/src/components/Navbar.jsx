@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { LogIn, LetterText, Settings, MenuIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { authStore } from "../store/authStore";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -40,10 +41,14 @@ const Navbar = () => {
 
   const [openMenu, setOpenMenu] = useState(false);
 
+  const { isAuthenticated, authUser } = authStore();
+
   const handleClick = (path) => {
     setOpenMenu(!openMenu);
     navigate(path);
   };
+
+  console.log("USER: ", authUser);
 
   return (
     <div className="navbar bg-base-100 shadow-md px-1">
@@ -55,39 +60,48 @@ const Navbar = () => {
           Moodie
         </a>
       </div>
-      <div className="hidden sm:flex flex-none">
-        <ul className="flex flex-row gap-10 pr-5">
-          <li className="flex cursor-pointer ">
-            <a
-              className="flex font-semibold items-center gap-1 "
-              onClick={() => navigate("/login")}
-            >
-              <LogIn className="size-4.5" />
-              Login
-            </a>
-          </li>
-          <li className="flex cursor-pointer ">
-            <a
-              className="flex font-semibold items-center gap-1"
-              tabIndex={0}
-              onClick={() => navigate("/signup")}
-            >
-              <LetterText className="size-4.5" />
-              SignUp
-            </a>
-          </li>
-          <li className="flex cursor-pointer ">
-            <a
-              className="flex font-semibold items-center gap-1"
-              tabIndex={0}
-              onClick={() => navigate("/settings")}
-            >
-              <Settings className="size-4.5" />
-              Settings
-            </a>
-          </li>
-        </ul>
-      </div>
+      {isAuthenticated ? (
+        <div>
+          <span className="font-semibold mr-4">
+            Bienvenido {authUser?.name}
+          </span>
+        </div>
+      ) : (
+        <div className="hidden sm:flex flex-none">
+          <ul className="flex flex-row gap-10 pr-5">
+            <li className="flex cursor-pointer ">
+              <a
+                className="flex font-semibold items-center gap-1 "
+                onClick={() => navigate("/login")}
+              >
+                <LogIn className="size-4.5" />
+                Login
+              </a>
+            </li>
+            <li className="flex cursor-pointer ">
+              <a
+                className="flex font-semibold items-center gap-1"
+                tabIndex={0}
+                onClick={() => navigate("/signup")}
+              >
+                <LetterText className="size-4.5" />
+                SignUp
+              </a>
+            </li>
+            <li className="flex cursor-pointer ">
+              <a
+                className="flex font-semibold items-center gap-1"
+                tabIndex={0}
+                onClick={() => navigate("/settings")}
+              >
+                <Settings className="size-4.5" />
+                Settings
+              </a>
+            </li>
+          </ul>
+        </div>
+      )}
+
       <div className="sm:hidden flex-none">
         <button className="btn btn-square btn-ghost">
           <MenuIcon className="size-6" onClick={() => setOpenMenu(!openMenu)} />

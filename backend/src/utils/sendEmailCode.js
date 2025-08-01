@@ -1,8 +1,8 @@
 import { sendEmailVerification } from "../services/brevo.js";
 
-export const sendEmailCode = async (code, user) => {
+export const sendEmailCode = async (code, name, email) => {
   try {
-    const resEmail = await sendEmailVerification(user.name, code, user.email);
+    const resEmail = await sendEmailVerification(name, code, email);
 
     if (!resEmail) {
       return false;

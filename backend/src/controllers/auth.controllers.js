@@ -42,7 +42,7 @@ export const signupController = async (req, res) => {
       });
     }
 
-    const resEmail = sendEmailCode(code, newUser);
+    const resEmail = await sendEmailCode(code, newUser.name, newUser.email);
 
     if (!resEmail) {
       return res
@@ -86,7 +86,9 @@ export const loginController = async (req, res) => {
     }
 
     generateToken(userLogin._id, res);
-    return res.status(200).json({ message: "Logged account!" });
+    return res
+      .status(200)
+      .json({ message: "Logged account!", user: userLogin });
   } catch (error) {
     console.log("Error in loginController: ", error);
     return res.status(500).json({ message: "Internal server error" });
@@ -149,5 +151,47 @@ export const verificationController = async (req, res) => {
   } catch (error) {
     console.log("Error in verificationController: ", error);
     return res.status(500).json({ error: "Error in verificationController" });
+  }
+};
+
+export const resendEmailController = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    if (!email)
+      return res
+        .status(400)
+        .json({ error: "The field is required", code: "FIELD_REQUIRED" });
+
+    const user = await User.findOne({ email: email });
+
+    if (!user)
+      return res
+        .status(400)
+        .json({ error: "User dont exist", code: "USER_NOT_FOUND" });
+
+    if (user.status === "verified") {
+      return res
+        .status(400)
+        .json({ error: "The account is verified", code: "ACCOUNT_VERIFIED" });
+    }
+
+    const code = randomCode();
+
+    user.code = code;
+    user.codeExpires = new Date(Date.now() + 10 * 60 * 1000);
+    await user.save();
+
+    const resEmail = await sendEmailCode(code, user.name, user.email);
+
+    if (!resEmail)
+      return res
+        .status(400)
+        .json({ error: "The email not send", code: "EMAIL_SEND_FAILED" });
+
+    res.status(200).json({ message: "Email send" });
+  } catch (error) {
+    console.log("Error en resendEmailController: ", error);
+    return res.status(500).json({ error: "Error in resendEamilController" });
   }
 };

@@ -42,7 +42,7 @@ const Results = () => {
 
   return (
     <div className="min-h-[92.8vh] w-full bg-base-200 flex flex-col items-center p-10">
-      {movieRecommendations.length != 0 ? (
+      {movies.length === 0 ? (
         <div className="h-[80vh] w-full flex flex-col justify-center items-center text-4xl">
           <h1 className="text-base-content font-bold text-center">
             Buscando la mejor película
@@ -67,7 +67,7 @@ const Results = () => {
               </h1>
             </div>
             <div className="flex flex-col gap-2 ">
-              {movieRecommendations.map((movie) => (
+              {movies.map((movie) => (
                 <div className="flex flex-col md:flex-row bg-base-100  gap-2 md:gap-10 rounded-md  overflow-hidden ">
                   <div className="">
                     <img

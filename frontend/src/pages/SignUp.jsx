@@ -26,7 +26,7 @@ const LoginPage = () => {
     }
   };
 
-  const submitHandle = (e) => {
+  const submitHandle = async (e) => {
     e.preventDefault();
 
     if (!formData.name || !formData.email || !formData.password) {
@@ -43,8 +43,15 @@ const LoginPage = () => {
       toast.error("Las contraseñas no coinciden.");
       return;
     }
-    signup(formData);
-    navigate("/verification");
+    const res = await signup(formData);
+
+    console.log("response: ", res);
+
+    if (res === 400 || res === 500) {
+      return;
+    } else {
+      navigate("/verification");
+    }
   };
 
   return (
