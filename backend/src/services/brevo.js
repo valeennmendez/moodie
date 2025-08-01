@@ -14,10 +14,7 @@ export const sendEmailVerification = async (name, code, email) => {
     apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, KEY);
 
     const sendSmptEmail = new brevo.SendSmtpEmail();
-    let html = await fs.readFile(
-      "../backend/src/email-template/template.html",
-      "utf-8"
-    );
+    let html = await fs.readFile("../email-template/template.html", "utf-8");
     html = html.replace("{{nombre}}", name).replace("{{code}}", code);
     sendSmptEmail.subject = "Moodie - Código de verificación";
     sendSmptEmail.to = [{ email: email, name: name }];
