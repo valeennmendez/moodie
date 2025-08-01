@@ -13,7 +13,7 @@ const KEY = process.env.BREVO_SECRET;
 const EMAIL = process.env.PERSONAL_EMAIL;
 const templatePath = path.resolve(
   __dirname,
-  "src",
+  "..",
   "email-template",
   "template.html"
 );
