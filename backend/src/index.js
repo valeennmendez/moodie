@@ -26,6 +26,8 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+console.log("Directorio raiz en produccion: ", process.cwd());
+
 app.listen(5001, () => {
   console.log("Servidor corriendo en el puerto 5001");
   connectDB();
