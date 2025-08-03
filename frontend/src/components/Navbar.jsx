@@ -47,7 +47,7 @@ const Navbar = () => {
         </a>
       </div>
       {isAuthenticated ? (
-        <div className="relative group mr-8">
+        <div className="relative group mr-8 hidden sm:inline">
           <div onClick={() => handleSlide()} className="flex gap-0.5">
             <span className="font-semibold border-base-content/50 cursor-pointer hover:border-b-2">
               Bienvenido {authUser?.name}
@@ -132,10 +132,28 @@ const Navbar = () => {
           <li className="flex cursor-pointer ">
             <a
               className="flex font-semibold items-center gap-1"
+              tabIndex={0}
+              onClick={() => handleClick("/settings")}
+            >
+              <Settings className="size-4.5" />
+              Settings
+            </a>
+          </li>
+          <li className="flex cursor-pointer ">
+            <a
+              className="flex font-semibold items-center gap-1"
               onClick={() => handleClick("/login")}
             >
-              <LogIn className="size-4.5" />
-              Login
+              {isAuthenticated ? (
+                <>
+                  <User className="size-4.5" /> Perfil
+                </>
+              ) : (
+                <>
+                  <LogIn className="size-4.5" />
+                  "Login"
+                </>
+              )}
             </a>
           </li>
           <li className="flex cursor-pointer ">
@@ -144,18 +162,16 @@ const Navbar = () => {
               tabIndex={0}
               onClick={() => handleClick("/signup")}
             >
-              <LetterText className="size-4.5" />
-              SignUp
-            </a>
-          </li>
-          <li className="flex cursor-pointer ">
-            <a
-              className="flex font-semibold items-center gap-1"
-              tabIndex={0}
-              onClick={() => handleClick("/settings")}
-            >
-              <Settings className="size-4.5" />
-              Settings
+              {isAuthenticated ? (
+                <>
+                  <LogOut className="size-4.5" /> Salir
+                </>
+              ) : (
+                <>
+                  <LetterText className="size-4.5" />
+                  SignUp
+                </>
+              )}
             </a>
           </li>
         </ul>
