@@ -1,51 +1,37 @@
 import { useState } from "react";
-import { LogIn, LetterText, Settings, MenuIcon } from "lucide-react";
+import {
+  LogIn,
+  LetterText,
+  Settings,
+  MenuIcon,
+  ChevronDown,
+  ChevronUp,
+  User,
+  LogOut,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { authStore } from "../store/authStore";
 
 const Navbar = () => {
   const navigate = useNavigate();
 
-  /*   return (
-    <div className="bg-slate-950/95 flex h-14 items-center justify-between px-10">
-      <h1
-        className="text-amber-50 font-bold text-2xl cursor-pointer"
-        onClick={() => navigate("/")}
-      >
-        Moodie
-      </h1>
-      <div className="hidden sm:flex">
-        <ul className="flex gap-10">
-          <li className="flex font-semibold text-amber-50 items-center gap-1 bg-black/25 px-2 py-1 rounded-md cursor-pointer">
-            <LogIn className="size-4.5" />
-            Login
-          </li>
-          <li className="flex font-semibold text-amber-50 items-center gap-1 bg-black/25 px-2 py-1 rounded-md cursor-pointer">
-            <LetterText className="size-4.5" />
-            SignUp
-          </li>
-          <li
-            onClick={() => navigate("/settings")}
-            className="flex font-semibold text-amber-50 items-center gap-1 bg-black/25 px-2 py-1 rounded-md cursor-pointer"
-          >
-            <Settings className="size-4.5" />
-            Settings
-          </li>
-        </ul>
-      </div>
-      <MenuIcon className="sm:hidden flex text-amber-50" />
-    </div>
-  );
-};
- */
-
   const [openMenu, setOpenMenu] = useState(false);
-
   const { isAuthenticated, authUser } = authStore();
+  const [openSlide, setOpenSlide] = useState(false);
 
   const handleClick = (path) => {
     setOpenMenu(!openMenu);
     navigate(path);
+  };
+
+  const handleSlide = (path) => {
+    if (path) {
+      console.log("Path: ", path);
+      navigate(path);
+      setOpenSlide(false);
+    } else {
+      setOpenSlide(!openSlide);
+    }
   };
 
   console.log("USER: ", authUser);
@@ -61,10 +47,40 @@ const Navbar = () => {
         </a>
       </div>
       {isAuthenticated ? (
-        <div>
-          <span className="font-semibold mr-4">
-            Bienvenido {authUser?.name}
-          </span>
+        <div className="relative group mr-8">
+          <div onClick={() => handleSlide()} className="flex gap-0.5">
+            <span className="font-semibold border-base-content/50 cursor-pointer hover:border-b-2">
+              Bienvenido {authUser?.name}
+            </span>
+            {openSlide ? (
+              <ChevronUp className="size-6 mt-0.5 cursor-pointer " />
+            ) : (
+              <ChevronDown className="size-6 mt-0.5 cursor-pointer " />
+            )}
+          </div>
+          <div
+            className={`${
+              openSlide ? `flex` : `hidden`
+            } absolute z-10 left-0 mt-5 bg-base-200 rounded w-full shadow-lg opacity-100 transition-all duration-300`}
+          >
+            <ul className="flex flex-col  w-full">
+              <li
+                className="font-semibold p-4 w-full h-10 cursor-pointer hover:bg-base-content/10 gap-1.5 flex items-center transition-all duration-400 "
+                onClick={() => handleSlide("/settings")}
+              >
+                <Settings className="size-4.5" />
+                Configuracion
+              </li>
+              <li className="font-semibold p-4 w-full h-10 cursor-pointer hover:bg-base-content/10 gap-1.5 flex items-center transition-all duration-400 ">
+                <User className="size-4.5" />
+                Perfil
+              </li>
+              <li className="font-semibold p-4 rounded-b w-full h-10 gap-1.5 cursor-pointer  hover:bg-base-content/10 transition-all duration-400 flex items-center">
+                <LogOut className="size-4.5" />
+                Salir
+              </li>
+            </ul>
+          </div>
         </div>
       ) : (
         <div className="hidden sm:flex flex-none">
