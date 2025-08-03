@@ -31,7 +31,7 @@ const Results = () => {
         );
 
         setMovies(response.data.movies);
-        setGenres(response.data.genres);
+        //setGenres(response.data.genres);
       } catch (error) {
         console.error("Error fetching movies:", error);
       }
@@ -42,7 +42,7 @@ const Results = () => {
 
   return (
     <div className="min-h-[92.8vh] w-full bg-base-200 flex flex-col items-center p-10">
-      {movies.length === 0 ? (
+      {movieRecommendations.length === 0 ? (
         <div className="h-[80vh] w-full flex flex-col justify-center items-center text-4xl">
           <h1 className="text-base-content font-bold text-center">
             Buscando la mejor película
@@ -66,14 +66,14 @@ const Results = () => {
                 Géneros recomendados: {<span>{genres?.join(", ")}</span>}
               </h1>
             </div>
-            <div className="flex flex-col gap-2 ">
-              {movies.map((movie) => (
-                <div className="flex flex-col md:flex-row bg-base-100  gap-2 md:gap-10 rounded-md  overflow-hidden ">
-                  <div className="">
+            <div className="flex flex-col gap-2 min-h-[50rem] sm:h-full ">
+              {movieRecommendations.map((movie) => (
+                <div className="flex flex-col md:flex-row bg-base-100   gap-2 md:gap-10 rounded-md  overflow-hidden ">
+                  <div className="bg-black/20">
                     <img
                       src={movie.poster}
                       alt={movie.title}
-                      className="md:w-64 w-full object-contains"
+                      className="md:w-64 w-32 m-auto  sm:w-full object-contains"
                     />
                   </div>
                   <div className="w-full p-5 flex flex-col justify-around">
