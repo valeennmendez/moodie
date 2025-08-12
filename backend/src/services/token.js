@@ -11,8 +11,10 @@ export const generateToken = async (_id, res) => {
 
   res.cookie("token", token, {
     httpOnly: true,
-    maxAge: 3600,
+    maxAge: 1000 * 60 * 60,
     sameSite: "strict",
     secure: process.env.NODE_ENV === "production",
   });
+
+  console.log("Token en generateToken: ", token);
 };

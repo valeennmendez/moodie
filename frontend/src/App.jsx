@@ -9,6 +9,7 @@ import Results from "./pages/Results";
 import { useThemeStore } from "./store/themeStore";
 import { Toaster } from "react-hot-toast";
 import VerificationCode from "./pages/VerificationCode";
+import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
   const { theme } = useThemeStore();
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/verification" element={<VerificationCode />} />
       </Routes>
       <Toaster />

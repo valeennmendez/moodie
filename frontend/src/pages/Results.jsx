@@ -40,9 +40,11 @@ const Results = () => {
     fetchData();
   }, []);
 
+  console.log("movies", movies);
+
   return (
     <div className="min-h-[92.8vh] w-full bg-base-200 flex flex-col items-center p-10">
-      {movieRecommendations.length === 0 ? (
+      {movies.length === 0 ? (
         <div className="h-[80vh] w-full flex flex-col justify-center items-center text-4xl">
           <h1 className="text-base-content font-bold text-center">
             Buscando la mejor película
@@ -63,11 +65,11 @@ const Results = () => {
           <div className=" sm:w-[35rem] md:w-[50rem] lg:w-full px-10">
             <div className="my-5">
               <h1 className="text-base-content/60 left-0">
-                Géneros recomendados: {<span>{genres?.join(", ")}</span>}
+                {/* Géneros recomendados: {<span>{genres?.join(", ")}</span>} */}
               </h1>
             </div>
             <div className="flex flex-col gap-2 min-h-[50rem] sm:h-full ">
-              {movieRecommendations.map((movie) => (
+              {movies.map((movie) => (
                 <div className="flex flex-col md:flex-row bg-base-100   gap-2 md:gap-10 rounded-md  overflow-hidden ">
                   <div className="bg-black/20">
                     <img
@@ -81,7 +83,7 @@ const Results = () => {
                       {movie.title}
                     </h1>
                     <p className="text-base-content/50 text-sm lg:text-lg">
-                      {movie.genres.join(",")}
+                      {/* {movie.genres.join(",")} */}
                     </p>
                     <span className="text-sm lg:text-lg text-base-content font-semibold">
                       ⭐{Math.round(movie.puntuation * 10) / 10}

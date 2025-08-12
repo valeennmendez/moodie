@@ -16,7 +16,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const [openMenu, setOpenMenu] = useState(false);
-  const { isAuthenticated, authUser } = authStore();
+  const { isAuthenticated, authUser, logout } = authStore();
   const [openSlide, setOpenSlide] = useState(false);
 
   const handleClick = (path) => {
@@ -34,7 +34,11 @@ const Navbar = () => {
     }
   };
 
-  console.log("USER: ", authUser);
+  const handleLogOut = () => {
+    logout();
+  };
+
+  console.log("isauth: ", authUser);
 
   return (
     <div className="navbar bg-base-100 shadow-md px-1">
@@ -46,7 +50,7 @@ const Navbar = () => {
           Moodie
         </a>
       </div>
-      {isAuthenticated ? (
+      {authUser !== null ? (
         <div className="relative group mr-8 hidden sm:inline">
           <div onClick={() => handleSlide()} className="flex gap-0.5">
             <span className="font-semibold border-base-content/50 cursor-pointer hover:border-b-2">
@@ -71,11 +75,17 @@ const Navbar = () => {
                 <Settings className="size-4.5" />
                 Configuracion
               </li>
-              <li className="font-semibold p-4 w-full h-10 cursor-pointer hover:bg-base-content/10 gap-1.5 flex items-center transition-all duration-400 ">
+              <li
+                onClick={() => handleSlide("/profile")}
+                className="font-semibold p-4 w-full h-10 cursor-pointer hover:bg-base-content/10 gap-1.5 flex items-center transition-all duration-400 "
+              >
                 <User className="size-4.5" />
                 Perfil
               </li>
-              <li className="font-semibold p-4 rounded-b w-full h-10 gap-1.5 cursor-pointer  hover:bg-base-content/10 transition-all duration-400 flex items-center">
+              <li
+                onClick={() => handleLogOut()}
+                className="font-semibold p-4 rounded-b w-full h-10 gap-1.5 cursor-pointer  hover:bg-base-content/10 transition-all duration-400 flex items-center"
+              >
                 <LogOut className="size-4.5" />
                 Salir
               </li>

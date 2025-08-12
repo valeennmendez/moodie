@@ -71,7 +71,7 @@ export const loginController = async (req, res) => {
         .json({ error: "All fields are required!", code: "MISSING_FIELDS" });
 
     const userLogin = await User.findOne({ email });
-    const compareHash = await bcrypt.compare(password, userLogin.password);
+    const compareHash = bcrypt.compare(password, userLogin.password);
 
     if (!compareHash)
       return res
@@ -193,5 +193,14 @@ export const resendEmailController = async (req, res) => {
   } catch (error) {
     console.log("Error en resendEmailController: ", error);
     return res.status(500).json({ error: "Error in resendEamilController" });
+  }
+};
+
+export const checkController = async (req, res) => {
+  try {
+    res.status(200).json(req.user);
+  } catch (error) {
+    console.log("Error en controlador checkController: ", error);
+    res.status(500).json({ message: "Error en el servido" });
   }
 };

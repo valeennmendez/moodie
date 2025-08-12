@@ -25,6 +25,7 @@ const LoginPage = () => {
 
   const submitHandle = async (e) => {
     e.preventDefault();
+    console.log(formData);
     const res = await login(formData);
     if (res === 200) {
       navigate("/");

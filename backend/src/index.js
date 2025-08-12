@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import { fileURLToPath } from "url";
 import path from "path";
 import { connectDB } from "./services/db.js";
+import cookieParser from "cookie-parser";
 
 //dotenv.config({ path: "../.env" });
 dotenv.config();
@@ -15,6 +16,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use("/api/movie", movieRouths);
 app.use("/api/auth", authRoutes);
@@ -25,8 +27,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
   });
 }
-
-console.log("Directorio raiz en produccion: ", process.cwd());
 
 app.listen(5001, () => {
   console.log("Servidor corriendo en el puerto 5001");

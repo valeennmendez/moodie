@@ -25,7 +25,8 @@ export async function getMoviesByGenres(genres) {
     const sortOptions = ["popularity.desc", "vote_average.desc"];
     const sortBy = sortOptions[Math.floor(Math.random() * sortOptions.length)];
 
-    const response = await axios.get(`${BASE_URL}/discover/movie`, {
+    //find/tt1028532?external_source=imdb_id&language=es
+    const response = await axios.get(`${BASE_URL}/find/`, {
       params: {
         api_key: TMDB_API_KEY,
         with_genres: genreIds.join(","),
@@ -67,3 +68,34 @@ export async function getMoviesByGenres(genres) {
     return [];
   }
 }
+
+export const getMoviesById = async (moviesParam) => {
+  try {
+    const moviesResponse = await Promise.all(
+      moviesParam.map(async (movie) => {
+        const res = await axios.get(`${BASE_URL}/find/${movie.imdb_id}?`, {
+          params: {
+            api_key: TMDB_API_KEY,
+            external_source: "imdb_id",
+            language: "es",
+          },
+        });
+
+        const movieInfo = {
+          title: res.data.movie_results[0].title,
+          overview: res.data.movie_results[0].overview,
+          poster: `https://image.tmdb.org/t/p/w500${res.data.movie_results[0].poster_path}`,
+          date: res.data.movie_results[0].release_date,
+          puntuation: res.data.movie_results[0].vote_average,
+          genres: getGenreNames(res.data.movie_results[0].genre_ids),
+        };
+
+        return movieInfo;
+      })
+    );
+
+    return moviesResponse;
+  } catch (error) {
+    console.log("Error in getMovieById: ", error);
+  }
+};

@@ -43,6 +43,32 @@ export const authStore = create(
         }
       },
 
+      logout: async () => {
+        set({ isAuthenticated: false });
+        try {
+          const res = await axiosInstance.get("auth/logout/");
+          set({ authUser: null });
+          console.log("Deslogueo exitoso!");
+        } catch (error) {
+          console.log("Error in logout: ", error);
+          toast.error(error.response.data.error);
+        } finally {
+          set({ isAuthenticated: false });
+        }
+      },
+
+      checkAuth: async () => {
+        try {
+          const res = await axiosInstance.get("auth/check");
+          set({ authUser: res.data });
+          return res;
+        } catch (error) {
+          console.log("Error en checkAuth", error);
+          set({ authUser: null });
+          return error;
+        }
+      },
+
       verification: async (data) => {
         set({ isVerifying: true });
         try {
@@ -75,7 +101,10 @@ export const authStore = create(
     }),
     {
       name: "auth-store", // clave en localStorage
-      partialize: (state) => ({ authUser: state.authUser }), // solo persistimos authUser
+      partialize: (state) => ({
+        authUser: state.authUser,
+        isAuthenticated: state.isAuthenticated,
+      }), // solo persistimos authUser
     }
   )
 );
