@@ -38,8 +38,6 @@ const Navbar = () => {
     logout();
   };
 
-  console.log("isauth: ", authUser);
-
   return (
     <div className="navbar bg-base-100 shadow-md px-1">
       <div className="flex-1">

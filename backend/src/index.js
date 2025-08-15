@@ -1,6 +1,7 @@
 import express from "express";
 import movieRouths from "./routes/movie.routes.js";
 import authRoutes from "./routes/auth.routes.js";
+import preferencesRoutes from "./routes/profile.routes.js";
 import cors from "cors";
 import dotenv from "dotenv";
 import { fileURLToPath } from "url";
@@ -20,6 +21,7 @@ app.use(cookieParser());
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use("/api/movie", movieRouths);
 app.use("/api/auth", authRoutes);
+app.use("/api/preferences", preferencesRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../../frontend/dist")));

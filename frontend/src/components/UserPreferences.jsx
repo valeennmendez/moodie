@@ -1,15 +1,31 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 
-function UserPreferences({ cantidad, titulo, subtitulo }) {
-  const [tags, setTags] = useState([]);
+function UserPreferences({
+  cantidad,
+  titulo,
+  subtitulo,
+  value,
+  onChange,
+  getTags = [],
+}) {
+  const [tags, setTags] = useState();
   const [word, setWord] = useState("");
+
+  useEffect(() => {
+    if (
+      Array.isArray(getTags) &&
+      JSON.stringify(getTags) !== JSON.stringify(tags)
+    ) {
+      setTags(getTags);
+    }
+  }, [getTags]);
 
   const handleTags = (e) => {
     e.preventDefault();
-    console.log(e);
     if (word !== "" && tags.length < cantidad) {
       setTags([...tags, word]);
+      onChange([...(value || []), word]);
     }
 
     setWord("");
@@ -19,12 +35,14 @@ function UserPreferences({ cantidad, titulo, subtitulo }) {
     const newTags = [...tags];
     newTags.splice(index, 1);
     setTags(newTags);
+    onChange(newTags);
   };
 
   return (
     <div>
-      <div className="w-full bg-base-300 min-h-[10rem] rounded-lg p-5">
+      <div className="w-full bg-base-300 min-h-[15rem] rounded-lg p-5">
         <h3 className="text-2xl font-bold text-base-content">{titulo}</h3>
+
         <span className="text-sm font-semibold text-base-content/70">
           {subtitulo}
         </span>
@@ -46,13 +64,13 @@ function UserPreferences({ cantidad, titulo, subtitulo }) {
             </form>
           </div>
           <div className="flex gap-2 flex-row flex-wrap py-2">
-            {tags.map((tag, index) => (
-              <div className="flex flex-row border-2 rounded-full gap-2 py-0.5 px-2">
-                <p className="text-center m-auto" key={index}>
-                  {tag}
-                </p>
+            {tags?.map((tag, index) => (
+              <div
+                key={tag + index}
+                className="flex flex-row border-2 rounded-full gap-2 py-0.5 px-2"
+              >
+                <p className="text-center m-auto">{tag}</p>
                 <span
-                  key={index}
                   onClick={() => deleteTag(index)}
                   className="font-semibold cursor-pointer"
                 >
@@ -62,7 +80,7 @@ function UserPreferences({ cantidad, titulo, subtitulo }) {
             ))}
           </div>
           <span className="text-[0.8rem] font-semibold text-base-content/50">
-            {tags.length}/{cantidad} elementos
+            {tags?.length}/{cantidad} elementos
           </span>
         </div>
       </div>
